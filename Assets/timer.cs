@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class timer : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class timer : MonoBehaviour
     public Text finallaptext;
 
     public GameObject place;
+    public GameObject pauseUI;
     public AudioSource[] beeps;
 
     public AudioClip backmusic;
@@ -54,6 +56,7 @@ public class timer : MonoBehaviour
 
     void Start()
     {
+        pauseUI.SetActive(false);
         beeps = place.GetComponents<AudioSource>();
         beeps[4].PlayOneShot(racestart);
     }
@@ -174,6 +177,7 @@ public class timer : MonoBehaviour
         if (lap == laps + 1)
         {
             crossGoal(who, color);
+            
         }
 
         if (who.name == "Car")
@@ -205,6 +209,9 @@ public class timer : MonoBehaviour
                     finallaptext.enabled = true;
                     Invoke("removemes", 2);
                 }
+            }
+            if (finished) {
+                renderButton();
             }
         }
         
@@ -239,7 +246,31 @@ public class timer : MonoBehaviour
         myText.fontStyle = FontStyle.Bold;
         myText.alignment = TextAnchor.UpperRight;
         myText.color = color;
-        myText.text = (wincount)+ ".   " + string.Format("{0:00} : {1:00} : {2:00}", minutes, seconds, fraction);;
+        myText.text = (wincount)+ ".   " + string.Format("{0:00} : {1:00} : {2:00}", minutes, seconds, fraction);
+        // GameObject tuan = new GameObject("tuan");
+        // tuan.transform.SetParent(cr.transform);
+
+        // Button button1 = newGO.AddComponent<Button>();
+        // Vector3 pos2 = new Vector3(100, 200, 0);
+        // button1.transform.localPosition = pos2;
+        // button1.GetComponentInChildren<Text>().text = "Restart";
+
     }
+
+    public void renderButton()
+    {
+         pauseUI.SetActive(true);
+    }
+
+    public void quit()
+    {
+        Application.Quit();
+    }
+
+    public void restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 
 }
