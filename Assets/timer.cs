@@ -14,6 +14,7 @@ public class timer : MonoBehaviour
 
     public GameObject place;
     public GameObject pauseUI;
+    public GameObject pauseUI2;
     public AudioSource[] beeps;
 
     public AudioClip backmusic;
@@ -35,7 +36,8 @@ public class timer : MonoBehaviour
 
     public CanvasRenderer cr;
 
-    public int laps = 1;
+    // public int laps = 1;
+    public int laps;
     public int currentlap = 1;
 
     private float time = 0;
@@ -49,6 +51,7 @@ public class timer : MonoBehaviour
     private bool finished = false;
 
     private int audioplayed = 0;
+    public bool pause = false;
 
     float minutes;
     float seconds;
@@ -56,13 +59,33 @@ public class timer : MonoBehaviour
 
     void Start()
     {
+        laps = PlayerPrefs.GetInt("soVong", 1);
         pauseUI.SetActive(false);
+        pauseUI2.SetActive(false);
         beeps = place.GetComponents<AudioSource>();
         beeps[4].PlayOneShot(racestart);
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            pause = !pause;
+ 
+        }
+
+        if (pause)
+        {
+            pauseUI2.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+        if (pause == false)
+        {
+            pauseUI2.SetActive(false);
+            Time.timeScale = 1;
+        }
+
         if (!startrace && Input.GetAxis("Submit") == 1)
         {
             startcount = true;
@@ -272,5 +295,14 @@ public class timer : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void resume()
+    {
+        pause = false;
+    }
+
+     public void backHome()
+     {
+         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+     }
 
 }
