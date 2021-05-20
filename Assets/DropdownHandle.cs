@@ -26,6 +26,7 @@ public class DropdownHandle : MonoBehaviour
     {
          a = sender.value;
          a = a + 1;
+         Debug.Log("aa" + a);
          PlayerPrefs.SetInt("soVong", a);
          
     }
